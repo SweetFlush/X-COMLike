@@ -1,9 +1,9 @@
-using System;
+
 
 /// <summary>
 /// x값과 z값을 담은 구조체
 /// </summary>
-public struct GridPosition : IEquatable<GridPosition>
+public struct GridPosition
 {
     public int x;
     public int z;
@@ -19,19 +19,6 @@ public struct GridPosition : IEquatable<GridPosition>
         return obj is GridPosition position &&
                x == position.x &&
                z == position.z;
-    }
-
-    public bool Equals(GridPosition other)
-    {
-        return this == other;
-    }
-
-    public override int GetHashCode()
-    {
-        int hashCode = 1553271884;
-        hashCode = hashCode * -1521134295 + x.GetHashCode();
-        hashCode = hashCode * -1521134295 + z.GetHashCode();
-        return hashCode;
     }
 
     public override string ToString()

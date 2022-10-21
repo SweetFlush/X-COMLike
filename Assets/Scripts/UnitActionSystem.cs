@@ -18,6 +18,7 @@ public class UnitActionSystem : MonoBehaviour
         if(Instance != null)
         {
             Destroy(gameObject);
+            return;
         }
         Instance = this;
     }

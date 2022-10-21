@@ -8,6 +8,7 @@ public class Unit : MonoBehaviour
     public float rotationSpeed = 10f;
 
     private Vector3 targetPosition;
+    private GridPosition gridPosition;  //내가 어느 grid에 위치해있는지 담음
 
     private Animator unitAnimator;
 
@@ -19,6 +20,10 @@ public class Unit : MonoBehaviour
     private void Start()
     {
         unitAnimator = GetComponentInChildren<Animator>();
+
+        //내 위치가 그리드의 어느 위치인지 알아내어 gridPosition에 할당
+        gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+        LevelGrid.Instance.AddUnitGridPosition(gridPosition, this);
     }
 
     private void Update()
@@ -36,6 +41,15 @@ public class Unit : MonoBehaviour
         else
         {
             unitAnimator.SetBool("isRunning", false);
+        }
+
+        GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+
+        if(newGridPosition != gridPosition)
+        {
+            //moved
+            LevelGrid.Instance.UnitMovedGridPosition(this, gridPosition, newGridPosition);
+            gridPosition = newGridPosition;
         }
     }
 
