@@ -4,23 +4,19 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    public float moveSpeed = 4f;
-    public float rotationSpeed = 10f;
-
-    private Vector3 targetPosition;
+    /* GridPosition 로직을 unit에 남겨두는 이유는 MoveAction이외에도 넉백이나 텔포 등 다른 방법으로 유닛을 움직여야 할 수 있기 때문*/
     private GridPosition gridPosition;  //내가 어느 grid에 위치해있는지 담음
-
-    private Animator unitAnimator;
+    private MoveAction moveAction;
+    private SpinAction spinAction;
 
     private void Awake()
     {
-        targetPosition = transform.position;
+        moveAction = GetComponent<MoveAction>();
+        spinAction = GetComponent<SpinAction>();
     }
 
     private void Start()
     {
-        unitAnimator = GetComponentInChildren<Animator>();
-
         //내 위치가 그리드의 어느 위치인지 알아내어 gridPosition에 할당
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.AddUnitGridPosition(gridPosition, this);
@@ -28,33 +24,27 @@ public class Unit : MonoBehaviour
 
     private void Update()
     {
-        float stoppingDistance = 0.05f;
-        if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
-        {
-            Vector3 moveDirection = (targetPosition - transform.position).normalized;
-            transform.position += moveDirection * moveSpeed * Time.deltaTime;
-
-            transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotationSpeed);
-
-            unitAnimator.SetBool("isRunning", true);
-        }
-        else
-        {
-            unitAnimator.SetBool("isRunning", false);
-        }
-
         GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
 
-        if(newGridPosition != gridPosition)
+        if (newGridPosition != gridPosition)
         {
             //moved
             LevelGrid.Instance.UnitMovedGridPosition(this, gridPosition, newGridPosition);
             gridPosition = newGridPosition;
         }
     }
-
-    public void Move(Vector3 targetPosition)
+    public MoveAction GetMoveAction()
     {
-        this.targetPosition = targetPosition;
+        return moveAction;
+    }
+
+    public SpinAction GetSpinAction()
+    {
+        return spinAction;
+    }
+
+    public GridPosition GetGridPosition()
+    {
+        return gridPosition;
     }
 }

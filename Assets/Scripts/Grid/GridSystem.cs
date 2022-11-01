@@ -65,4 +65,26 @@ public class GridSystem
     {
         return gridObjectArray[gridPosition.x, gridPosition.z];
     }
+
+    /// <summary>
+    /// 유효한 GridPosition인지 bool값 리턴
+    /// </summary>
+    /// <param name="gridPosition"></param>
+    /// <returns></returns>
+    public bool IsValidGridPosition(GridPosition gridPosition)
+    {
+        //(0,0)보다 크거나 같고, 그리드의 개수인 width나 height보다 작으면 true
+        return (gridPosition.x >= 0 && gridPosition.z >= 0) &&
+               (gridPosition.x < width && gridPosition.z < height);
+    }
+
+    public int GetWidth()
+    {
+        return width;
+    }
+
+    public int GetHeight()
+    {
+        return height;
+    }
 }
