@@ -13,6 +13,8 @@ public class UnitActionSystem : MonoBehaviour
     [SerializeField] private Unit selectedUnit;
     [SerializeField] private LayerMask unitLayerMask;
 
+    private bool isBusy = false;
+
     private void Awake()
     {
         if(Instance != null)
@@ -25,10 +27,17 @@ public class UnitActionSystem : MonoBehaviour
 
     private void Update()
     {
+        //입력 받아 선택, 이동
         if(Input.GetMouseButtonDown(0))
         {
             TryHandleUnitSelection();
-            selectedUnit.GetSpinAction().Spin();
+            SetBusy();
+            selectedUnit.GetSpinAction().Spin(ClearBusy);
+        }
+
+        if (isBusy)
+        {
+            return;
         }
 
         if (Input.GetMouseButtonDown(1))
@@ -37,10 +46,21 @@ public class UnitActionSystem : MonoBehaviour
 
             if(selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition))
             {
-                selectedUnit.GetMoveAction().Move(mouseGridPosition);
+                SetBusy();
+                selectedUnit.GetMoveAction().Move(mouseGridPosition, ClearBusy);
             }
             
         }
+    }
+
+    private void SetBusy()
+    {
+        isBusy = true;
+    }
+
+    private void ClearBusy()
+    {
+        isBusy = false;
     }
 
     //마우스 클릭으로 선택된 유닛을 바꿈
