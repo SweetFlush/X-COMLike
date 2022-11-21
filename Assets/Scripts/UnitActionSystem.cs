@@ -10,6 +10,7 @@ public class UnitActionSystem : MonoBehaviour
 
     public event EventHandler OnSelectedUnitChanged;
     public event EventHandler OnSelectedActionChanged;
+    public event EventHandler<bool> OnBusyChanged;
 
     [SerializeField] private Unit selectedUnit;
     [SerializeField] private LayerMask unitLayerMask;
@@ -52,23 +53,29 @@ public class UnitActionSystem : MonoBehaviour
         {
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
 
-            //gridPosition이 유효하면 액션 수행
-            if(selectedAction.IsValidActionGridPosition(mouseGridPosition))
+            if(selectedUnit.TrySpendActionPointToTakeAction(selectedAction))
             {
-                SetBusy();
-                selectedAction.TakeAction(mouseGridPosition, ClearBusy);
+                //gridPosition이 유효하면 액션 수행
+                if (selectedAction.IsValidActionGridPosition(mouseGridPosition))
+                {
+                    SetBusy();
+                    selectedAction.TakeAction(mouseGridPosition, ClearBusy);
+                }
             }
+            
         }
     }
 
     private void SetBusy()
     {
         isBusy = true;
+        OnBusyChanged?.Invoke(this, isBusy);
     }
 
     private void ClearBusy()
     {
         isBusy = false;
+        OnBusyChanged?.Invoke(this, isBusy);
     }
 
     //마우스 클릭으로 선택된 유닛을 바꿈

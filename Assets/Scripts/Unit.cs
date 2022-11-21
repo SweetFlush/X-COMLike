@@ -11,6 +11,8 @@ public class Unit : MonoBehaviour
 
     private BaseAction[] baseActionArray;
 
+    private int actionPoint = 2;
+
     private void Awake()
     {
         moveAction = GetComponent<MoveAction>();
@@ -54,5 +56,33 @@ public class Unit : MonoBehaviour
     public BaseAction[] GetBaseActionArray()
     {
         return baseActionArray;
+    }
+
+    public bool TrySpendActionPointToTakeAction(BaseAction baseAction)
+    {
+        if(CanSpendActionPointToTakeAction(baseAction))
+        {
+            SpendActionPoint(baseAction.GetActionPointCost());
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    public bool CanSpendActionPointToTakeAction(BaseAction baseAction)
+    {
+        if(actionPoint >= baseAction.GetActionPointCost())
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    private void SpendActionPoint(int amount)
+    {
+        actionPoint -= amount;
     }
 }
