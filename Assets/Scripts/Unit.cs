@@ -10,6 +10,8 @@ public class Unit : MonoBehaviour
     //턴 변경이 발생했을 때, Unit보다 UI가 먼저 이벤트 처리가 발생하면 UI에서는 유닛의 갱신안된 턴 수인 0이 출력되는 오류를 방지하기 위해 따로 만듦
     public static event EventHandler OnAnyActionPointsChanged;
 
+    [SerializeField] private bool isEnemy;
+
     /* GridPosition 로직을 unit에 남겨두는 이유는 MoveAction이외에도 넉백이나 텔포 등 다른 방법으로 유닛을 움직여야 할 수 있기 때문*/
     private GridPosition gridPosition;  //내가 어느 grid에 위치해있는지 담음
     private MoveAction moveAction;
@@ -103,9 +105,17 @@ public class Unit : MonoBehaviour
 
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
-        actionPoint = ACTION_POINT_MAX;
+        //적이고 적 턴이면 액션포인트 초기화, 아군이고 아군 턴이면 액션포인트 초기화
+        if(isEnemy && !TurnSystem.Instance.IsPlayerTurn() || (!isEnemy && TurnSystem.Instance.IsPlayerTurn()))
+        {
+            actionPoint = ACTION_POINT_MAX;
 
-        OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+            OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+    public bool IsEnemy()
+    {
+        return isEnemy;
     }
 
 }

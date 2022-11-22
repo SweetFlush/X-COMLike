@@ -42,6 +42,8 @@ public class UnitActionSystem : MonoBehaviour
         if (EventSystem.current.IsPointerOverGameObject()) return;
         //선택한 유닛이 없으면 입력 무시
         if (TryHandleUnitSelection()) return;
+        //적군 턴이면 입력 무시
+        if (!TurnSystem.Instance.IsPlayerTurn()) return;
 
         //입력 받아 선택, 이동
         HandleSelectedAction();
@@ -95,6 +97,12 @@ public class UnitActionSystem : MonoBehaviour
                         // 유닛이 이미 선택됨
                         return false;
                     }
+                    //적이면 선택하지않음
+                    if(unit.IsEnemy())
+                    {
+                        return false;
+                    }
+
                     SetSelectedUnit(unit);
                     return true;
                 }
