@@ -61,6 +61,9 @@ public class UnitActionSystem : MonoBehaviour
                 //gridPosition이 유효하면 액션 수행
                 if (selectedAction.IsValidActionGridPosition(mouseGridPosition))
                 {
+                    //Debug.Log(selectedAction.GetActionPointCost().ToString());
+                    //선택한 유닛의 액션포인트 소모
+                    selectedUnit.SpendActionPoint(selectedAction.GetActionPointCost());
                     SetBusy();
                     selectedAction.TakeAction(mouseGridPosition, ClearBusy);
 

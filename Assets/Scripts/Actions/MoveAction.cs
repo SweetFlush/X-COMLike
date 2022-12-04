@@ -5,13 +5,14 @@ using UnityEngine;
 
 public class MoveAction : BaseAction
 {
+    public event EventHandler OnStartMoving;
+    public event EventHandler OnStopMoving;
+
     [SerializeField] private int maxMoveDistance = 4;
 
     public float moveSpeed = 4f;
     public float rotationSpeed = 10f;
     private Vector3 targetPosition;
-
-    private Animator unitAnimator;
 
     protected override void Awake()
     {
@@ -21,7 +22,7 @@ public class MoveAction : BaseAction
 
     private void Start()
     {
-        unitAnimator = GetComponentInChildren<Animator>();
+
     }
 
     private void Update()
@@ -37,12 +38,10 @@ public class MoveAction : BaseAction
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
         {
             transform.position += moveDirection * moveSpeed * Time.deltaTime;
-
-            unitAnimator.SetBool("isRunning", true);
         }
         else
         {
-            unitAnimator.SetBool("isRunning", false);
+            OnStopMoving?.Invoke(this, EventArgs.Empty);
             ActionComplete();
         }
 
@@ -54,6 +53,8 @@ public class MoveAction : BaseAction
         ActionStart(onActionComplete);
 
         this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+
+        OnStartMoving?.Invoke(this, EventArgs.Empty);
     }
     
 

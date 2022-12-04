@@ -5,6 +5,14 @@ using UnityEngine;
 
 public class ShootAction : BaseAction
 {
+    public event EventHandler<OnShootEventArgs> OnShoot;
+
+    public class OnShootEventArgs : EventArgs
+    {
+        public Unit targetUnit;
+        public Unit shootingUnit;
+    }
+
     private enum State
     {
         Aiming,
@@ -73,6 +81,11 @@ public class ShootAction : BaseAction
 
     private void Shoot()
     {
+        OnShoot?.Invoke(this, new OnShootEventArgs
+        {
+            targetUnit = targetUnit,
+            shootingUnit = unit
+        });
         targetUnit.Damage();
     }
 
@@ -137,7 +150,7 @@ public class ShootAction : BaseAction
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
 
         state = State.Aiming;
-        float aimingStateTime = 1f;
+        float aimingStateTime = .5f;
         stateTimer = aimingStateTime;
 
         canShootBullet = true;

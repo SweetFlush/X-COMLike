@@ -77,7 +77,7 @@ public class Unit : MonoBehaviour
     {
         if(CanSpendActionPointToTakeAction(baseAction))
         {
-            SpendActionPoint(baseAction.GetActionPointCost());
+            //SpendActionPoint(baseAction.GetActionPointCost());
             return true;
         } else
         {
@@ -96,7 +96,7 @@ public class Unit : MonoBehaviour
         }
     }
 
-    private void SpendActionPoint(int amount)
+    public void SpendActionPoint(int amount)
     {
         actionPoint -= amount;
 
