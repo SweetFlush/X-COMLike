@@ -12,6 +12,8 @@ public class Unit : MonoBehaviour
 
     [SerializeField] private bool isEnemy;
 
+    private HealthSystem healthSystem;
+
     /* GridPosition 로직을 unit에 남겨두는 이유는 MoveAction이외에도 넉백이나 텔포 등 다른 방법으로 유닛을 움직여야 할 수 있기 때문*/
     private GridPosition gridPosition;  //내가 어느 grid에 위치해있는지 담음
     private MoveAction moveAction;
@@ -23,6 +25,7 @@ public class Unit : MonoBehaviour
 
     private void Awake()
     {
+        healthSystem = GetComponent<HealthSystem>();
         moveAction = GetComponent<MoveAction>();
         spinAction = GetComponent<SpinAction>();
         baseActionArray = GetComponents<BaseAction>();
@@ -32,9 +35,12 @@ public class Unit : MonoBehaviour
     {
         //내 위치가 그리드의 어느 위치인지 알아내어 gridPosition에 할당
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+        //레벨그리드에 내 위치를 등록
         LevelGrid.Instance.AddUnitGridPosition(gridPosition, this);
 
+        //이벤트 구독
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+        healthSystem.OnDead += HealthSystem_OnDead;
     }
 
     private void Update()
@@ -123,9 +129,15 @@ public class Unit : MonoBehaviour
         return isEnemy;
     }
 
-    public void Damage()
+    public void DealDamage(int damageAmount)
     {
-        Debug.Log(transform + "Damaged!");
+        healthSystem.DealDamage(damageAmount);
+    }
+
+    private void HealthSystem_OnDead(object sender, EventArgs e)
+    {
+        LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
+        Destroy(gameObject);
     }
 
 }

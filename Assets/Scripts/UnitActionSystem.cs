@@ -143,4 +143,9 @@ public class UnitActionSystem : MonoBehaviour
     {
         return selectedAction;
     }
+
+    public Vector3 GetDirectionBetweenTwoUnit(Transform unitTransform)
+    {
+        return (unitTransform.position - selectedUnit.transform.position).normalized;
+    }
 }

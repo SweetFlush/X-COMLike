@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2034586204362104459}
   - component: {fileID: 3716399609203286212}
+  - component: {fileID: 1617683163381459380}
   m_Layer: 0
   m_Name: BulletProjectile
   m_TagString: Untagged
@@ -45,6 +46,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trailRenderer: {fileID: 4661717317874125094}
+  bulletHitVfxPrefab: {fileID: 8734335964661449222, guid: d239945039a0e894a97946ff3ca77e1b, type: 3}
+--- !u!135 &1617683163381459380
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4341296861704868391}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4648401572741020743
 GameObject:
   m_ObjectHideFlags: 0

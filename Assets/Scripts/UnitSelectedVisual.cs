@@ -37,4 +37,10 @@ public class UnitSelectedVisual : MonoBehaviour
             meshRenderer.enabled = false;
         }
     }
+
+    private void OnDestroy()
+    {
+        //물체가 파괴되면 이벤트 구독 해제
+        UnitActionSystem.Instance.OnSelectedUnitChanged -= UnitActionSystem_OnSelectedUnitChanged;
+    }
 }
