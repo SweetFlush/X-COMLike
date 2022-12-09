@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 /// <summary>
 /// 해당 스테이지 레벨에 있는 그리드
 /// </summary>
 public class LevelGrid : MonoBehaviour
 {
+    public event EventHandler OnAnyUnitMovedGridPosition;
+
     public static LevelGrid Instance { get; private set; }
 
     public Transform gridDebugObjectPrefab;
@@ -48,6 +51,8 @@ public class LevelGrid : MonoBehaviour
         RemoveUnitAtGridPosition(fromGridPosition, unit);
 
         AddUnitGridPosition(toGridPosition, unit);
+
+        OnAnyUnitMovedGridPosition?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>

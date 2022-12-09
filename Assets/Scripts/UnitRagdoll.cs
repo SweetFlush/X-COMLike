@@ -6,13 +6,20 @@ public class UnitRagdoll : MonoBehaviour
 {
     [SerializeField] private Transform ragdollRootBone;
 
+    //deprecated
     public void SetUp(Transform originalRootBone)
     {
         Vector3 hitDirection = UnitActionSystem.Instance.GetDirectionBetweenTwoUnit(transform);
-        Debug.Log(hitDirection);
         MathAllChildTransforms(originalRootBone, ragdollRootBone);
 
         ApplyExplosionToRagdoll(ragdollRootBone, 500f, transform.position - hitDirection, 10f);
+    }
+
+    public void SetUp(Transform originalRootBone, Vector3 shootDir)
+    {
+        MathAllChildTransforms(originalRootBone, ragdollRootBone);
+
+        ApplyExplosionToRagdoll(ragdollRootBone, 500f, transform.position - (shootDir * 2), 10f);
     }
 
     /// <summary>

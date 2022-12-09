@@ -122,10 +122,6 @@ public class UnitActionSystem : MonoBehaviour
         SetSelectedAction(unit.GetMoveAction());
         //유닛 바꿨으니 이벤트 fire
         OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
-        //if (OnSelectedUnitChanged != null)
-        //{
-        //    OnSelectedUnitChanged(this, EventArgs.Empty);
-        //}
     }
 
     public void SetSelectedAction(BaseAction baseAction)
@@ -144,6 +140,11 @@ public class UnitActionSystem : MonoBehaviour
         return selectedAction;
     }
 
+    /// <summary>
+    /// 래그돌에 힘을 가할 방향을 주기 위해 쏜 유닛과 맞은 유닛의 방향벡터를 리턴하는 함수
+    /// </summary>
+    /// <param name="unitTransform">맞은 유닛</param>
+    /// <returns></returns>
     public Vector3 GetDirectionBetweenTwoUnit(Transform unitTransform)
     {
         return (unitTransform.position - selectedUnit.transform.position).normalized;
