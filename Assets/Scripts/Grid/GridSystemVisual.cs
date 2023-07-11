@@ -86,7 +86,7 @@ public class GridSystemVisual : MonoBehaviour
         switch(selectedAction)
         {
             default:
-            case MoveAction moveAction: 
+            case MoveAction moveAction:
                 break;
             case SpinAction spinAction:
                 gridVisualType = GridVisualType.Blue;

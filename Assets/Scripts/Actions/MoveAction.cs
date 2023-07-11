@@ -45,15 +45,13 @@ public class MoveAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        
-
         this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
 
         OnStartMoving?.Invoke(this, EventArgs.Empty);
 
         ActionStart(onActionComplete);
     }
-    
+
 
     //이동이 유효한 그리드 리스트를 리턴
     public override List<GridPosition> GetValidActionGridPositionList()
@@ -69,7 +67,7 @@ public class MoveAction : BaseAction
             {
                 GridPosition offsetGridPosition = new GridPosition(x, z);
                 GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
-                
+
                 if(!LevelGrid.Instance.IsValidGridPosition(testGridPosition))
                 {
                     //Grid가 LevelGrid에서 생성된 Grid가 아니라면 컨티뉴

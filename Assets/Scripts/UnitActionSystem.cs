@@ -48,7 +48,6 @@ public class UnitActionSystem : MonoBehaviour
         //입력 받아 선택, 이동
         HandleSelectedAction();
     }
-    
     //액션 제어
     private void HandleSelectedAction()
     {
@@ -70,7 +69,6 @@ public class UnitActionSystem : MonoBehaviour
                     OnActionStarted?.Invoke(this, EventArgs.Empty);
                 }
             }
-            
         }
     }
 

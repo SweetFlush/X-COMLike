@@ -58,7 +58,6 @@ public class ShootAction : BaseAction
             NextState();
         }
     }
-    
     private void NextState()
     {
         switch(state)
